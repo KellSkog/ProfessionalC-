@@ -1,0 +1,2 @@
+C++ supports so-called class template argument deduction (CTAD), as discussed in detail in Chap-ter 12.
+std::optional Page 87(37) pdf(book)

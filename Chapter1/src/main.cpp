@@ -23,9 +23,8 @@ int main(int argc, char *argv[]) {
   if (argc >= 2) {
     switch (COMMAND cmd = static_cast<COMMAND>(atoi(argv[1])); cmd) {
       using enum COMMAND;
-      case NOP:
-        break;
-      case TWC: {
+      [[unlikely]] case NOP : break;
+      [[likely]] case TWC : {
         std::strong_ordering result = std::strong_ordering::equal;
         if (argc == 4)
           result = threeWayComparison(atoi(argv[2]), atoi(argv[3]));
@@ -33,9 +32,28 @@ int main(int argc, char *argv[]) {
           result = threeWayComparison(1, 1);
 
         std::cout << "Comparison result: " << get_ordering(result) << "\n";
-        break;
       }
+      break;
+      case NODISCARD: {
+        /* error: ignoring return value of ‘int func()’, declared with attribute
+         * ‘nodiscard’: ‘I'm very important’ [-Werror=unused-result]*/
+        // func();
+        [[maybe_unused]] auto mol = func();
+        std::cout << "It's very important:\n";
+      } break;
+      case NORETURN:
+        forceProgramTermination();
+        break;
+      case DEPRECATED:
+#if 0 
+        funcA();  // error: ‘void funcA()’ is deprecated: Unsafe method, please use xyz
+               // [-Werror=deprecated-declarations]
+#endif
+        funcB();
+        break;
     }
   } else
-    std::cout << "I'm alive, alive I say!\n";
+    std::cout << __func__ << " am alive, alive " << __func__ << " say !\n ";
+
+  return 0;
 }
