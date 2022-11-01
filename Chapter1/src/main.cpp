@@ -51,6 +51,9 @@ int main(int argc, char *argv[]) {
 #endif
         funcB();
         break;
+      case OPTIONAL:
+        std::cout << getValue(false).value_or(-42) << "\n";
+        break;
     }
   } else
     std::cout << __func__ << " am alive, alive " << __func__ << " say !\n ";

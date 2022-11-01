@@ -30,3 +30,10 @@ void forceProgramTermination() {
 
 void funcA() {}
 void funcB() {}
+
+std::optional<int> getValue(bool isValid) {
+  if (isValid)
+    return 42;
+  else
+    return std::nullopt;
+}

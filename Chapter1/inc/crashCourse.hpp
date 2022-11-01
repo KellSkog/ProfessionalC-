@@ -1,5 +1,6 @@
 #pragma once
 #include <compare>
+#include <optional>
 
 enum class COMMAND {
   NOP,
@@ -7,6 +8,7 @@ enum class COMMAND {
   NODISCARD,
   NORETURN,
   DEPRECATED,
+  OPTIONAL,
 };
 template <typename T>
 std::strong_ordering threeWayComparison(T one, T other);
@@ -19,5 +21,7 @@ std::strong_ordering threeWayComparisonHO(T one, T other)  // Header Only
 
 /*[[noreturn]]*/ void forceProgramTermination();  // No error!?
 
-[[deprecated("Unsafe method, please use xyz")]] void funcA();
+[[deprecated("Unsafe method, please use funcB")]] void funcA();
 void funcB();
+
+std::optional<int> getValue(bool isValid);

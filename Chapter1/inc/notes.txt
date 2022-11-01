@@ -1,2 +1,5 @@
 C++ supports so-called class template argument deduction (CTAD), as discussed in detail in Chap-ter 12.
 std::optional Page 87(37) pdf(book)
+
+Check out: https://blog.jetbrains.com/rscpp/2019/07/10/better-ways-testing-with-doctest/
+https://medium.com/@zackbunch/python-doctest-and-unittest-f0292af324c4
