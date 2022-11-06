@@ -54,6 +54,34 @@ int main(int argc, char *argv[]) {
       case OPTIONAL:
         std::cout << getValue(false).value_or(-42) << "\n";
         break;
+      case STRUCT_BIND: {
+        auto [a, b] = getStructBindArray();  // int &&a, int &&b
+        a *= 2;
+        b += 8.5F;
+        auto [c, d] = getStructBindArray();  // Unchanged
+        std::cout << " a is now: " << c << " b is now: " << d << "\n";
+        /* It is also possible to create a set of references-to-non-const or
+         * references-to-const using the struc-tured bindings syntax,
+         by using auto& or const auto& instead of auto. */
+      } break;
+      case PTR: {
+#if 0
+        int a{111};
+        std::cout << &a << "\n";
+        int *b[]{&a};
+        int **c = b;
+        std::cout << &b << ", " << *b << "\n";
+        std::cout << &c << ", " << c << ", Sz: " << *c << "\n";
+#endif
+
+        int a = 42;
+        int **aa = new int *[4];
+        *aa = &a;
+        std::cout << &aa << ", " << aa << ", " << *aa << ", " << **aa << "\n";
+        int **bb = aa;
+        std::cout << &bb << ", " << bb << ", " << *bb << ", " << **bb << "\n";
+        delete[] aa;
+      } break;
     }
   } else
     std::cout << __func__ << " am alive, alive " << __func__ << " say !\n ";
