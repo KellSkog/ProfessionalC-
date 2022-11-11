@@ -8,3 +8,5 @@ target_compile_options(chapter1 PRIVATE -fmodules-ts ${CPP_COMPILE_OPTIONS})# -x
 add_executable ( test_chapter1 test/main.cpp src/crashCourse.cpp)
 target_include_directories(test_chapter1 PUBLIC inc)
 target_compile_options(test_chapter1 PRIVATE ${CPP_TEST_OPTIONS})
+
+add_subdirectory(employeeRecords)

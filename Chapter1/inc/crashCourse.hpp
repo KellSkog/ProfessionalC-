@@ -4,7 +4,10 @@
  * pointers are allowed only if there is no ownership involved.
  * Otherwise, you should use one of the smart pointers
  * NOTE Avoid using malloc() and free() from C. Instead, use new and delete,
- * or new[] and delete[].*/
+ * or new[] and delete[].
+ * Page 123(73):
+ * WARNING Always keep in mind that auto strips away reference and const qualifiers
+ * and thus creates a copy! If you do not want a copy, use auto& or const auto&.*/
 #pragma once
 #include <array>
 #include <compare>

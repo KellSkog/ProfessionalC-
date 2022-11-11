@@ -73,8 +73,10 @@ int main(int argc, char *argv[]) {
         std::cout << &b << ", " << *b << "\n";
         std::cout << &c << ", " << c << ", Sz: " << *c << "\n";
 #endif
-
-        int a = 42;
+        /* Page 124(74):*/
+        // int a{42, 42}; error: scalar object ‘a’ requires one element in initializer
+        // int a = {42, 42}; error: scalar object ‘a’ requires one element in initializer
+        int a = {42};
         int **aa = new int *[4];
         *aa = &a;
         std::cout << &aa << ", " << aa << ", " << *aa << ", " << **aa << "\n";

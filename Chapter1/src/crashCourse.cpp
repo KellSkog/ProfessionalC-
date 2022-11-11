@@ -112,6 +112,10 @@ void evenBetterSeparateOddsAndEvens(const std::vector<int>& arr, std::vector<int
   }
 }
 
+/* Statements of the form return object; trigger return value optimization (RVO)
+ * if object is a local variable, a parameter to the function, or a temporary value.
+ * Furthermore, if object is a local variable, named
+ * return value optimization (NRVO) can kick in. */
 OddsAndEvens bestSeparateOddsAndEvens(const NumVector& arr) {
   OddsAndEvens result{};
   for (auto i : arr) {
@@ -121,5 +125,6 @@ OddsAndEvens bestSeparateOddsAndEvens(const NumVector& arr) {
       result.odds.push_back(i);
     }
   }
-  return result;
+  // return result; // Which form is best? Same?
+  return OddsAndEvens{.odds = result.odds, .evens = result.evens};
 }
