@@ -11,10 +11,11 @@
 # pany. Finally, a separate UserInterface file provides the interactivity of the program.
 
 set(CPP_COMPILE_OPTIONS -std=c++20 -Werror -W -Wall -Wextra -Wpedantic)
-set(CPP_TEST_OPTIONS -std=c++20 -W -Wall -Wextra -Wpedantic)
+set(CPP_TEST_OPTIONS -g -O0 -std=c++20 -W -Wall -Wextra -Wpedantic)
 
 add_executable(employeeRecords records.cpp employee.cpp)
 target_compile_options(employeeRecords PRIVATE -fmodules-ts ${CPP_COMPILE_OPTIONS})
 
 add_executable(test_employeeRecords test_employee.cpp employee.cpp)
 target_compile_options(test_employeeRecords PRIVATE ${CPP_TEST_OPTIONS})
+target_compile_definitions(test_employeeRecords PRIVATE WITH_TEST_PROBE=1)

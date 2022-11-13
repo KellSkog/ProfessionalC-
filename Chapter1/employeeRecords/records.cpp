@@ -5,6 +5,9 @@
  * ➤➤ To view all employees, past and present
  * ➤➤ To view all current employees
  * ➤➤ To view all former employees */
+// #include <format> // No format in GCC 12.2
+#include <stdio.h>
+
 #include <iostream>
 
 #include "employee.hpp"
@@ -20,6 +23,7 @@ int main() {
   std::cout << "6. View all employee past and present\n";
   std::cout << "7. View all current employees\n";
   std::cout << "8. View all former employees\n";
-
+  std::cout << "9. Exit\n";
+  std::cout << "Enter cmd (1 to 9): ";
   std::cin >> selection;
 }
