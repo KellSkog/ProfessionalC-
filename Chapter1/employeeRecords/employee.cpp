@@ -8,20 +8,20 @@ int employeeNo = EmployeeBaseNo;
 int count = 0;
 }  // namespace Detail
 
-Employee::Employee(const std::string name, EmploymentLevel level)
+HR::Employee::Employee(const std::string name, EmploymentLevel level)
     : _employeeNo{Detail::employeeNo++}, _level{level}, _status{EmploymentStatus::Employed}, _name{name} {}
 
 Database::Database() : _employees{} {}
 Database::~Database() {}
 // void Database::add(Employee &&employee) { _employees.push_back(employee); }
-int Database::add(const Employee &employee) {
+int Database::add(const HR::Employee &employee) {
   _employees.push_back(employee);
   return employee._employeeNo;
 }
-Employee &Database::get(const int emplNo) { return _employees[emplNo - EmployeeBaseNo]; }
+HR::Employee &Database::get(const int emplNo) { return _employees[emplNo - EmployeeBaseNo]; }
 
-std::vector<Employee> Database::list(EmployeeView selector) {
-  std::vector<Employee> selection{};
+std::vector<HR::Employee> Database::list(EmployeeView selector) {
+  std::vector<HR::Employee> selection{};
   bool addThisEmployee = false;
   for (auto &empl : _employees) {
     switch (selector) {
@@ -29,12 +29,12 @@ std::vector<Employee> Database::list(EmployeeView selector) {
         addThisEmployee = true;
         break;
       case EmployeeView::Ex:
-        if (empl._status == EmploymentStatus::Terminated) {
+        if (empl.getStatus() == EmploymentStatus::Terminated) {
           addThisEmployee = true;
         }
         break;
       case EmployeeView::Present:
-        if (empl._status == EmploymentStatus::Employed) {
+        if (empl.getStatus() == EmploymentStatus::Employed) {
           addThisEmployee = true;
         }
     }
@@ -46,8 +46,8 @@ std::vector<Employee> Database::list(EmployeeView selector) {
   return selection;
 }
 
-void Employee::fire() { _status = EmploymentStatus::Terminated; }
-void Employee::changeLevel(Employee::LevelChange change) {
+void HR::Employee::fire() { _status = EmploymentStatus::Terminated; }
+void HR::Employee::changeLevel(Employee::LevelChange change) {
   switch (change) {
     case Employee::LevelChange::Promote:
       _level = EmploymentLevel::Master;
@@ -57,7 +57,7 @@ void Employee::changeLevel(Employee::LevelChange change) {
   }
 }
 
-void Employee::prettyPrint() {
+void HR::Employee::prettyPrint() {
   std::cout << "Employee No: ---- " << _employeeNo << "\n";
   std::cout << "Employee Name: -- " << _name << "\n";
   std::cout << "Employee Status:  ";
@@ -83,9 +83,9 @@ void Employee::prettyPrint() {
 }
 
 #ifdef WITH_TEST_PROBE
-EmploymentStatus Employee::getStatus() { return _status; }
-EmploymentLevel Employee::getLevel() { return _level; }
+EmploymentStatus HR::Employee::getStatus() { return _status; }
+EmploymentLevel HR::Employee::getLevel() { return _level; }
 #else
-EmploymentStatus Employee::getStatus() { return EmploymentStatus::Undefined; }
-EmploymentLevel Employee::getLevel() { return EmploymentLevel::Undefined; }
+EmploymentStatus HR::Employee::getStatus() { return EmploymentStatus::Undefined; }
+EmploymentLevel HR::Employee::getLevel() { return EmploymentLevel::Undefined; }
 #endif

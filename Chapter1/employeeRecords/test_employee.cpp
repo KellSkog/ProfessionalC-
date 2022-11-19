@@ -8,6 +8,7 @@
 Database database{};
 
 TEST_CASE("Database") {
+  using namespace HR;
   /*    Any code here is part of the Suite and will be executed before each SUBCASE!!!   */
   SUBCASE("create") {
     Database *dbPtr = &database;
