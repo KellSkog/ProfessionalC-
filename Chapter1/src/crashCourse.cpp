@@ -128,3 +128,13 @@ OddsAndEvens bestSeparateOddsAndEvens(const NumVector& arr) {
   // return result; // Which form is best? Same?
   return OddsAndEvens{.odds = result.odds, .evens = result.evens};
 }
+
+AirlineTicket::AirlineTicket() {}
+AirlineTicket::~AirlineTicket() {}
+double AirlineTicket::calculatePriceInDollars() { return 0.0; }
+std::string AirlineTicket::getPassengerName() const { return m_passengerName; }
+void AirlineTicket::setPassengerName(const std::string& name) { m_passengerName = name; }
+int AirlineTicket::getNumberOfMiles() const { return m_numberOfMiles; }
+void AirlineTicket::setNumberOfMiles(const int miles) { m_numberOfMiles = miles; }
+bool AirlineTicket::hasEliteSuperRewardsStatus() const { return m_hasEliteSuperRewardsStatus; }
+void AirlineTicket::setHasEliteSuperRewardsStatus(const bool status) { m_hasEliteSuperRewardsStatus = status; }

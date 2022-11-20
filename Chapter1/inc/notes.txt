@@ -10,3 +10,5 @@ printf("Adr of x: %p, of xx: %p ", (void *)&x, (void *)&xx);
 =>  Adr of x: 0x7ffd3e1b3afc, of xx: 0x7ffd3e1b3afc
 ${workspaceFolder} is set to where VS Code is launched (e.g. /home/kell/repos/ProfessionalCPP)
 Chapter1/employeeRecords/test_employee.cpp
+  int m_frequentFlyer;  // optional frequent-flyer number
+

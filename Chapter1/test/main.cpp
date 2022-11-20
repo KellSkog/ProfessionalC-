@@ -194,16 +194,13 @@ TEST_CASE("bestSeparateOddsAndEvens") {
     }
   }
 }
-TEST_CASE("bestSeparateOddsAndEvens") {
-  std::vector<int> vecUnSplit{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  SUBCASE("sub") {
-    OddsAndEvens res = bestSeparateOddsAndEvens(vecUnSplit);
-    for (auto num : res.odds) {
-      CHECK_NE(num % 2, 0);
-    }
-    for (auto num : res.evens) {
-      CHECK_EQ(num % 2, 0);
-    }
+TEST_CASE("AirlineTicket") {
+  SUBCASE("create") { AirlineTicket ticket{}; }
+  SUBCASE("set name") {
+    AirlineTicket ticket{};
+    std::string name = "Fritiof Nilsson Piraten";
+    ticket.setPassengerName(name);
+    CHECK_EQ(ticket.getPassengerName(), name);
   }
 }
 TEST_CASE("case") {

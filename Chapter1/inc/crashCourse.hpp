@@ -12,6 +12,7 @@
 #include <array>
 #include <compare>
 #include <optional>
+#include <string>
 #include <vector>
 
 enum class COMMAND {
@@ -81,3 +82,31 @@ struct OddsAndEvens {
   NumVector evens;
 };
 OddsAndEvens bestSeparateOddsAndEvens(const NumVector& arr);
+
+/*Exercise 1-5:
+ * Now that you know about const and references, and what they are used for,
+ * modify the AirlineTicket class from earlier in this chapter to use references wherever pos-
+ * sible and to be so-called const correct. */
+class AirlineTicket {
+ public:
+  AirlineTicket();
+  ~AirlineTicket();
+  double calculatePriceInDollars();
+  std::string getPassengerName() const;
+  void setPassengerName(const std::string& name);
+  int getNumberOfMiles() const;
+  void setNumberOfMiles(const int miles);  // Nothing gained by referense
+  bool hasEliteSuperRewardsStatus() const;
+  void setHasEliteSuperRewardsStatus(const bool status);  // Nothing gained by referense
+
+ private:
+  std::string m_passengerName;
+  int m_numberOfMiles;
+  bool m_hasEliteSuperRewardsStatus;
+};
+
+/*Exercise 1-6:
+ * Modify the AirlineTicket class from Exercise 1-5 to include an optional
+ * frequent-flyer number. What is the best way to represent this optional data member? Add a
+ * setter and a getter to set and retrieve the frequent-flyer number. Modify the main() function
+ * to test your implementation. */
