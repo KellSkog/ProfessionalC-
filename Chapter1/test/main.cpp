@@ -202,6 +202,13 @@ TEST_CASE("AirlineTicket") {
     ticket.setPassengerName(name);
     CHECK_EQ(ticket.getPassengerName(), name);
   }
+  SUBCASE("frequentFlyer") {
+    AirlineTicket ticket{};
+    auto num = ticket.getFfrequentFlyerNumber();
+    CHECK_EQ(num, std::nullopt);
+    ticket.setFfrequentFlyerNumber(42);
+    CHECK_EQ(ticket.getFfrequentFlyerNumber(), 42);
+  }
 }
 TEST_CASE("case") {
   SUBCASE("sub") {}

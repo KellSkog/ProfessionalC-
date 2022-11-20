@@ -138,3 +138,10 @@ int AirlineTicket::getNumberOfMiles() const { return m_numberOfMiles; }
 void AirlineTicket::setNumberOfMiles(const int miles) { m_numberOfMiles = miles; }
 bool AirlineTicket::hasEliteSuperRewardsStatus() const { return m_hasEliteSuperRewardsStatus; }
 void AirlineTicket::setHasEliteSuperRewardsStatus(const bool status) { m_hasEliteSuperRewardsStatus = status; }
+std::optional<int> AirlineTicket::getFfrequentFlyerNumber() const {
+  if (m_frequentFlyer) {
+    return m_frequentFlyer;
+  } else {
+    return std::nullopt;
+  }
+}

@@ -98,11 +98,14 @@ class AirlineTicket {
   void setNumberOfMiles(const int miles);  // Nothing gained by referense
   bool hasEliteSuperRewardsStatus() const;
   void setHasEliteSuperRewardsStatus(const bool status);  // Nothing gained by referense
+  std::optional<int> getFfrequentFlyerNumber() const;
+  void setFfrequentFlyerNumber(const int frqFlyerNum) { m_frequentFlyer = frqFlyerNum; }
 
  private:
   std::string m_passengerName;
   int m_numberOfMiles;
   bool m_hasEliteSuperRewardsStatus;
+  int m_frequentFlyer = 0;  // optional frequent-flyer number
 };
 
 /*Exercise 1-6:
