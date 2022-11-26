@@ -84,6 +84,14 @@ int main(int argc, char *argv[]) {
         std::cout << &bb << ", " << bb << ", " << *bb << ", " << **bb << "\n";
         delete[] aa;
       } break;
+      case TWO_STRINGS:
+        twoStrings();
+        break;
+      case NUMBERS:
+        std::vector<double> numbers;
+        readNumbers(numbers);
+        presentNumbers(numbers);
+        break;
     }
   } else
     std::cout << __func__ << " am alive, alive " << __func__ << " say !\n ";

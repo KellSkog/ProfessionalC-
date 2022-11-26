@@ -12,3 +12,21 @@ ${workspaceFolder} is set to where VS Code is launched (e.g. /home/kell/repos/Pr
 Chapter1/employeeRecords/test_employee.cpp
   int m_frequentFlyer;  // optional frequent-flyer number
 
+Errata in text
+Page 392 The text states:
+
+// Need reinterpret_cast for pointer conversion from void*
+xp = reinterpret_cast(p);
+
+reinterpret_cast() is too strong. A static_cast() is enough, so the code can be changed to:
+
+// Need static_cast for pointer conversion from void*
+xp = static_cast(p);
+-----
+Page 630 The text states:
+
+Used every time you remove an element,or when a vector grows in size and the elements are not noexcept movable.
+
+This should read:
+
+Used every time you remove an element, or when a vector grows in size.

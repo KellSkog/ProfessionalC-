@@ -13,6 +13,7 @@
 #include <compare>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
 enum class COMMAND {
@@ -24,6 +25,8 @@ enum class COMMAND {
   OPTIONAL,
   STRUCT_BIND,
   PTR,
+  TWO_STRINGS,
+  NUMBERS,
 };
 template <typename T>
 std::strong_ordering threeWayComparison(T one, T other);
@@ -113,3 +116,45 @@ class AirlineTicket {
  * frequent-flyer number. What is the best way to represent this optional data member? Add a
  * setter and a getter to set and retrieve the frequent-flyer number. Modify the main() function
  * to test your implementation. */
+
+/* Inline namespace */
+namespace top {
+inline namespace middle {
+inline namespace bottom {
+using namespace std::literals::string_literals;
+}
+}  // namespace middle
+}  // namespace top
+
+/* Not inlined */
+namespace Top {
+namespace Bottom {
+using namespace std::literals::string_literals;
+}
+}  // namespace Top
+std::string_view extractExtension(std::string_view filename);
+
+/* Exercise 2-1: Write a program that asks the user for two strings and then prints them out
+ * in alphabetical order, using the three-way comparison operator.*/
+void twoStrings();
+
+/*Exercise 2-2: Write a program that asks the user for a source string (= haystack), a string
+ * to find (= needle) in the source string, and a replacement string. Write a function with
+ * three parameters—the haystack, needle, and replacement string—that returns a copy of the haystack
+ * with all needles replaced with the replacement string. Use only std::string, no string_view. */
+std::string haystack(std::string& haystack, const std::string& needle, const std::string& replacement);
+
+/* Exercise 2-3:
+ * Modify the program from Exercise 2-2 and use std::string_view on as many places as possible */
+std::string haystack(std::string_view haystack, const std::string_view needle, const std::string_view replacement);
+
+/* Exercise 2-4:
+ * Write a program that asks the user to enter an unknown number of floatingpoint numbers and stores all
+ * numbers in a vector. Each number should be typed followed by Enter.
+ * Stop asking for more numbers when the user inputs the number 0.
+ * Format all numbers in a table with a couple of columns where each column formats a number
+ * in a different way. Each row in the table corresponds to one of the inputted numbers.*/
+template <typename T>
+void readNumbers(std::vector<T>& numbers);
+template <typename T>
+void presentNumbers(const std::vector<T>& numbers);

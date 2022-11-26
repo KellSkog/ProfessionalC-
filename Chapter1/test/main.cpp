@@ -210,6 +210,143 @@ TEST_CASE("AirlineTicket") {
     CHECK_EQ(ticket.getFfrequentFlyerNumber(), 42);
   }
 }
+TEST_CASE("Strings") {
+  // Syntax: R"d-char-sequence(r-char-sequence)d-char-sequence"
+  SUBCASE("raw string") {
+    std::string hello{R"(Hello "World"!)"};
+    CHECK_EQ(hello, "Hello \"World\"!");
+    const char *hello2{R"delimiter(Hello "(World)"!)delimiter"};
+    CHECK_EQ(hello2, "Hello \"(World)\"!");
+  }
+  SUBCASE("string concat") {
+    std::string a{"12"};
+    std::string b{"34"};
+    CHECK_EQ(a + b, "1234");
+    a += b;
+    CHECK_EQ(a, "1234");
+  }
+  SUBCASE("string compare") {
+    std::string a{"12"};
+    std::string b{"34"};
+    CHECK_LT(a.compare(b), 0);
+    CHECK_GT(b.compare(a), 0);
+
+    CHECK(is_lt(a <=> b));  // C++20 spaceship!!!
+    CHECK(is_gt(b <=> a));
+  }
+  SUBCASE("Operations on strings") {
+    [[maybe_unused]] auto charPtr{"text"};                                  // const char *charPtr
+    [[maybe_unused]] const auto charPtr2{"text2"};                          // const char *const charPtr2
+    std::string testString{"The quick brown fox jumps over the lazy dog"};  // (const char [44])
+    CHECK_EQ(testString.substr(4, 5), "quick");
+    CHECK_EQ(testString.find("brown"), 10);
+    CHECK_EQ(testString.find("eager"),
+             std::string::npos);  // static const std::size_t std::string::npos = 18446744073709551615UL
+    testString.replace(testString.find("brown"), 5, "eager");
+    CHECK_EQ(testString.find("eager"), 10);
+    CHECK(testString.starts_with("The"));
+    CHECK(testString.ends_with("dog"));
+    // std::sort(testString.begin(), testString.end());
+    // std::cout << testString << "\n";
+  }
+}
+TEST_CASE("Inline namespace") {
+  SUBCASE("top") {
+    using namespace top;
+    [[maybe_unused]] auto text{"Hello"s};
+  }
+  SUBCASE("middle") {
+    using namespace top::middle;
+    [[maybe_unused]] auto text{"Hello"s};
+  }
+  SUBCASE("bottom") {
+    using namespace top::middle::bottom;
+    [[maybe_unused]] auto text{"Hello"s};
+  }
+  SUBCASE("ekzakt") {
+    using namespace std::literals::string_literals;
+    [[maybe_unused]] auto text{"Hello"s};
+  }
+  SUBCASE("fail") {
+    using namespace Top;
+    // auto text{"Hello"s}; Without inline, names does not propagate up
+  }
+}
+#include <charconv>
+TEST_CASE("Numeric Conversions") {
+  SUBCASE("toString") { CHECK_EQ(std::to_string(3.14), "3.140000"); }
+  SUBCASE("stoi") { CHECK_EQ(std::stoi("101010", 0, 2), 42); }
+  SUBCASE("stol") { CHECK_EQ(std::stol("42"), 42L); }
+  SUBCASE("stoul") { CHECK_EQ(std::stoul("42"), 42UL); }
+  SUBCASE("stoll") { CHECK_EQ(std::stoll("42"), 42LL); }
+  SUBCASE("stoull") { CHECK_EQ(std::stoull("42"), 42ULL); }
+  SUBCASE("stof") { CHECK_EQ(std::stof("3.14"), 3.14F); }
+  SUBCASE("stod") { CHECK_EQ(std::stod("3.14"), 3.14); }
+  SUBCASE("stold") { CHECK_EQ(std::stold("3.14"), 3.14L); }
+  SUBCASE("perfect round-tripping") {
+    constexpr size_t BufferSize{50};
+    double value1{0.314};
+    std::string out(BufferSize, ' ');  // A string of BufferSize space characters.
+    auto [ptr1, error1]{std::to_chars(out.data(), out.data() + out.size(), value1)};
+    CHECK_EQ(error1, std::errc{});  // std::errc has no enumeration for 0!
+    std::cout << "std::errc{}" << static_cast<int>(std::errc{}) << "\n";
+    double value2;
+    auto [ptr2, error2]{std::from_chars(out.data(), out.data() + out.size(), value2)};
+    CHECK_EQ(error2, std::errc{});
+    CHECK_EQ(value1, value2);
+  }
+}
+
+TEST_CASE("string_view") {
+  /* C++17 introduced the std::string_view class, which is an instantiation of the
+   * std::basic_string_view class template, and defined in <string_view>.
+   * A string_view is basically a drop-in replacement for const string& but without the overhead.*/
+  SUBCASE("sub") {
+    std::string filename{R"(c:\temp\my file.ext)"};
+    CHECK_EQ(extractExtension(filename), ".ext");  // filename is never copied!!
+    const char *cString{R"(c:\temp\my file.ext)"};
+    CHECK_EQ(extractExtension(cString), ".ext");  // Constructs from any form of string
+  };
+}
+TEST_CASE("Exercise 2-2") {
+  std::string testString{"The quick brown fox jumps over the lazy dog"};  // (const char [44])
+  std::string replacement{"blue"};
+  std::string needle{"brown"};
+
+  SUBCASE("blue") {
+    std::string result{haystack(testString, needle, replacement)};
+    CHECK_EQ(result, "The quick blue fox jumps over the lazy dog");
+  }
+  SUBCASE("repeated") {
+    std::string testString2{"The quick brown fox brown over the brown dog"};
+    std::string result{haystack(testString2, needle, replacement)};
+    CHECK_EQ(result, "The quick blue fox blue over the blue dog");
+  }
+  SUBCASE("first and last") {
+    std::string testString2{"brown quick brown fox brown over the dog which is brown"};
+    std::string result{haystack(testString2, needle, replacement)};
+    CHECK_EQ(result, "blue quick blue fox blue over the dog which is blue");
+  }
+}
+TEST_CASE("Exercise 2-3") {
+  std::string_view replacement{"blue"};
+  std::string_view needle{"brown"};
+  SUBCASE("blue") {
+    std::string_view testString{"The quick brown fox brown over the brown dog"};
+    std::string result{haystack(testString, needle, replacement)};
+    CHECK_EQ(result, "The quick blue fox blue over the blue dog");
+  }
+  SUBCASE("repeated") {
+    std::string_view testString{"The quick brown fox brown over the brown dog"};
+    std::string result{haystack(testString, needle, replacement)};
+    CHECK_EQ(result, "The quick blue fox blue over the blue dog");
+  }
+  SUBCASE("first and last") {
+    std::string_view testString{"brown quick brown fox brown over the dog which is brown"};
+    std::string result{haystack(testString, needle, replacement)};
+    CHECK_EQ(result, "blue quick blue fox blue over the dog which is blue");
+  }
+}
 TEST_CASE("case") {
   SUBCASE("sub") {}
 }
