@@ -5,3 +5,4 @@ project("ProfessionalC++")
 
 include_directories(doctest/doctest)
 add_subdirectory(Chapter1)
+add_subdirectory(Chapter4)
